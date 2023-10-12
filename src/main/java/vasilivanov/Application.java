@@ -33,6 +33,7 @@ public class Application {
     }
     List<Order> orderList = customerList.stream().map(customer -> new Order("state of wainting", faker.date().between(date1, date2), date, productList, customer)).toList();
 //        EX1
+
     Map<String, List<Order>> clientCartList = orderList.stream().collect(Collectors.groupingBy(order -> order.getCustomer().getName()));
 //    clientCartList.forEach((customer, cart) -> System.out.println("Cart of " + customer + ": " + cart));
 //        EX2
