@@ -32,10 +32,11 @@ public class Application {
       customerList.add(customerSupplier.get());
     }
     List<Order> orderList = customerList.stream().map(customer -> new Order("state of wainting", faker.date().between(date1, date2), date, productList, customer)).toList();
-//        EX1
 
-    Map<String, List<Order>> clientCartList = orderList.stream().collect(Collectors.groupingBy(order -> order.getCustomer().getName()));
-//    clientCartList.forEach((customer, cart) -> System.out.println("Cart of " + customer + ": " + cart));
+//        EX1
+    Map<Customer, List<Order>> clientCartList = orderList.stream().collect(Collectors.groupingBy(Order::getCustomer));
+
+    clientCartList.forEach((customer, cart) -> System.out.println("Cart of " + customer.getName() + ": " + cart.));
 //        EX2
     Map<String, Double> clientCartTotal = orderList.stream().collect(Collectors.groupingBy(order -> order.getCustomer().getName(), Collectors.summingDouble(Order::getTotal)));
 //    clientCartTotal.forEach((client, total) -> System.out.println(client + " total: " + total + "$"));
@@ -50,6 +51,6 @@ public class Application {
     System.out.println("Average of orders: " + orderList.stream().mapToDouble(Order::getTotal).average().orElse(0.0));
 //        EX4
 
-//    System.out.println(productList.stream().collect(Collectors.groupingBy(Product::getCategory, Collectors.summingDouble(Product::getPrice))));
+    System.out.println(productList.stream().collect(Collectors.groupingBy(Product::getCategory, Collectors.summingDouble(Product::getPrice))));
   }
 }
